@@ -19,7 +19,7 @@ public class Rand48
 	
 	public double drand48()
 	{
-		this.seed = (a * this.seed + m) & (m - 1);
+		this.seed = (a * this.seed + c) & (m - 1);
 		return (double) this.seed / m;
 	}
 }

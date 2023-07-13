@@ -1,19 +1,53 @@
-import static org.junit.Assert.assertTrue;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Project
 {
 	private static Rand48 rand;
+	private static int n;
+	private static int n_cpu;
+	private static float lambda;
+	private static float ubound;
 	
-	public static float next_exp(final float lambda, final float ubound)
+	public static float next_exp()
 	{
-		float result = 0f;
+		double result = 0.0;
 		do
 		{
 			double r = rand.drand48();
-			result = (float) (-Math.log(r) / lambda);
+			result = -Math.log(r) / lambda;
 		}
 		while (result > ubound);
-		return result;
+		return (float) result;
+	}
+	
+	public static void next_process(final boolean io_bound, final String pid)
+	{
+		final int initial_arrival_time = (int) Math.floor(next_exp());
+		final int cpu_bursts = (int) Math.ceil(rand.drand48() * 64);
+		
+		List<Integer> bursts = new ArrayList<>();
+		for (int i = 0; i < cpu_bursts-1; ++i)
+		{
+			int cpu_burst_time = (int) Math.ceil(next_exp());
+			int io_burst_time = (int) Math.ceil(next_exp()) * 10;
+			
+			if (!io_bound)
+			{
+				cpu_burst_time *= 4;
+				io_burst_time /= 8;
+			}
+			
+			bursts.add(cpu_burst_time);
+			bursts.add(io_burst_time);
+		}
+		
+		int cpu_burst_time = (int) Math.ceil(next_exp());
+		if (!io_bound)
+		{
+			cpu_burst_time *= 4;
+		}
+		bursts.add(cpu_burst_time);
 	}
 	
 	/**
@@ -70,18 +104,21 @@ public class Project
 	 */
 	public static void main(String[] args)
 	{
-		final int n = Integer.parseInt(args[1]);
-		final int n_cpu = Integer.parseInt(args[2]);
-		final long seed = Long.parseLong(args[3]);
-		final float lambda = Float.parseFloat(args[4]);
-		final int ubound = Integer.parseInt(args[5]);
-		
-		assertTrue(n >= 0 && n <= 26);
-		assertTrue(n_cpu >= 0);
-		assertTrue(ubound > 0);
+		long seed = 0;
+		try
+		{
+			n = Integer.parseInt(args[1]);
+			n_cpu = Integer.parseInt(args[2]);
+			seed = Long.parseLong(args[3]);
+			lambda = Float.parseFloat(args[4]);
+			ubound = Integer.parseInt(args[5]);
+		}
+		catch (NumberFormatException e)
+		{
+			e.printStackTrace();
+			System.exit(1);
+		}
 
 		Project.rand = new Rand48(seed);
-		
-		// TODO: next_exp()
 	}
 }
