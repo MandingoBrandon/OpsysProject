@@ -1,7 +1,12 @@
 import static org.junit.Assert.assertTrue;
 
-public class Part1
-{	
+public class Project
+{
+	public int next_exp()
+	{
+		throw new RuntimeException("next_exp() not implemented.");
+	}
+	
 	/**
 	 * <p>
 	 * args[1]: Define <i>n</i> as the number of processes to simulate.
