@@ -1,17 +1,19 @@
 import static org.junit.Assert.assertTrue;
 
-import java.util.Random;
-
 public class Project
 {
-	private static Random rand;
+	private static Rand48 rand;
 	
-	public static int next_exp(final float lambda)
+	public static float next_exp(final float lambda, final float ubound)
 	{
-		double r = rand.nextDouble();
-		
-		
-		throw new RuntimeException("next_exp() not implemented.");
+		float result = 0f;
+		do
+		{
+			double r = rand.drand48();
+			result = (float) (-Math.log(r) / lambda);
+		}
+		while (result > ubound);
+		return result;
 	}
 	
 	/**
@@ -72,12 +74,13 @@ public class Project
 		final int n_cpu = Integer.parseInt(args[2]);
 		final long seed = Long.parseLong(args[3]);
 		final float lambda = Float.parseFloat(args[4]);
-		final int upper_bound = Integer.parseInt(args[5]);
+		final int ubound = Integer.parseInt(args[5]);
 		
 		assertTrue(n >= 0 && n <= 26);
 		assertTrue(n_cpu >= 0);
+		assertTrue(ubound > 0);
 
-		Project.rand = new Random(seed);
+		Project.rand = new Rand48(seed);
 		
 		// TODO: next_exp()
 	}
