@@ -23,19 +23,28 @@ public class Process
 	
 	public void print()
 	{
-		System.out.println("I/O-bound process " + this.pid + ": arrival time " + this.initial_arrival_time
-				+ "ms; " + this.cpu_bursts + " CPU bursts:");
+		if (this.io_bound)
+		{
+			System.out.println("I/O-bound process " + this.pid + ": arrival time " +
+					this.initial_arrival_time + "ms; " + this.cpu_bursts + " CPU bursts:");
+		}
+		else
+		{
+			System.out.println("CPU-bound process " + this.pid + ": arrival time " + this.initial_arrival_time
+					+ "ms; " + this.cpu_bursts + " CPU bursts:");
+		}
 		
-		for (int i = 0; i < this.cpu_bursts; ++i)
+		for (int i = 0; i < this.bursts.size(); ++i)
 		{
 			if (i % 2 == 0)
 			{
-				System.out.println("--> ");
+				System.out.print("--> CPU burst " + bursts.get(i) + "ms");
 			}
 			else
 			{
-				
+				System.out.println("--> I/O burst " + bursts.get(i) + "ms");
 			}
 		}
+		System.out.println();
 	}
 }

@@ -3,6 +3,9 @@ import java.util.List;
 
 public class Project
 {
+	private static final String[] pid = { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N",
+			"O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z" };
+	
 	private static Rand48 rand;
 	private static int n;
 	private static int n_cpu;
@@ -21,7 +24,7 @@ public class Project
 		return (float) result;
 	}
 	
-	public static void next_process(final boolean io_bound, final String pid)
+	public static Process next_process(final boolean io_bound, final String pid)
 	{
 		final int initial_arrival_time = (int) Math.floor(next_exp());
 		final int cpu_bursts = (int) Math.ceil(rand.drand48() * 64);
@@ -48,6 +51,7 @@ public class Project
 			cpu_burst_time *= 4;
 		}
 		bursts.add(cpu_burst_time);
+		return new Process(initial_arrival_time, cpu_bursts, bursts, io_bound, pid);
 	}
 	
 	/**
@@ -118,7 +122,25 @@ public class Project
 			e.printStackTrace();
 			System.exit(1);
 		}
-
+		
 		Project.rand = new Rand48(seed);
+		
+		if (n_cpu == 1)
+		{
+			System.out.println("<<< PROJECT PART I -- process set (n=" + n +
+					") with 1 CPU-bound process >>>");
+		}
+		else
+		{
+			System.out.println("<<< PROJECT PART I -- process set (n=" + n +
+					") with " + n_cpu + " CPU-bound process >>>");
+		}
+		
+		for (int i = 0; i < n; ++i)
+		{
+			final boolean io_bound = i < n - n_cpu;
+			final Process p = next_process(io_bound, pid[i]);
+			p.print();
+		}
 	}
 }

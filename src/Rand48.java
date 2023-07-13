@@ -14,7 +14,7 @@ public class Rand48
 	
 	public void srand48(final long seed)
 	{
-		this.seed = (this.seed << 16) | 0x330EL;
+		this.seed = (seed << 16) | 0x330EL;
 	}
 	
 	public double drand48()
