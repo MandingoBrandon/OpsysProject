@@ -108,6 +108,12 @@ public class Project
 	 */
 	public static void main(String[] args)
 	{
+		if (args.length != 6)
+		{
+			System.out.println("ERROR: Incorrect number of arguments");
+			System.exit(1);
+		}
+		
 		long seed = 0;
 		try
 		{
@@ -119,7 +125,13 @@ public class Project
 		}
 		catch (NumberFormatException e)
 		{
-			e.printStackTrace();
+			System.out.println("ERROR: thrown NumberFormatException");
+			System.exit(1);
+		}
+		
+		if (n_cpu > n)
+		{
+			System.out.println("ERROR: n_proc >= n_cpu");
 			System.exit(1);
 		}
 		
