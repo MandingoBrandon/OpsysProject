@@ -1,9 +1,16 @@
 import static org.junit.Assert.assertTrue;
 
+import java.util.Random;
+
 public class Project
 {
-	public int next_exp()
+	private static Random rand;
+	
+	public static int next_exp(final float lambda)
 	{
+		double r = rand.nextDouble();
+		
+		
 		throw new RuntimeException("next_exp() not implemented.");
 	}
 	
@@ -69,5 +76,9 @@ public class Project
 		
 		assertTrue(n >= 0 && n <= 26);
 		assertTrue(n_cpu >= 0);
+
+		Project.rand = new Random(seed);
+		
+		// TODO: next_exp()
 	}
 }
