@@ -42,7 +42,7 @@ public class Process
 			}
 			else
 			{
-				System.out.println("--> I/O burst " + bursts.get(i) + "ms");
+				System.out.println(" --> I/O burst " + bursts.get(i) + "ms");
 			}
 		}
 		System.out.println();
