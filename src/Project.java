@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
-import java.util.LinkedList;
 
 public class Project
 {
@@ -13,7 +11,7 @@ public class Project
     private static int n_cpu;
     private static float lambda;
     private static float ubound;
-    private static List<Process> processes = new ArrayList<>();
+    
     public static float next_exp()
     {
         double result = 0.0;
@@ -155,14 +153,6 @@ public class Project
             final boolean io_bound = i < n - n_cpu;
             final Process p = next_process(io_bound, pid[i]);
             p.print();
-            processes.add(p);
-        }
-
-        Queue<Process> readyQueue = new LinkedList<>(processes); // Assuming you have a list of processes
-        // call the fcfs simulation method for each process in the reeady queue
-        for (Process p : readyQueue)
-        {
-            p.FCFS();
         }
     }
 }
